@@ -172,10 +172,7 @@ while True:
                 break
 
             else:
-                print("Invalid Command!")
-
-    elif main_choice == "debug":
-        print(main_database)        
+                print("Invalid Command!")    
 
     elif main_choice == "3":
         print("Goodbye!")
