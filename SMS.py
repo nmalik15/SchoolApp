@@ -5,7 +5,8 @@ main_database = {
         {"first_name": "Leo", "last_name": "Cap", "class": "4E"},
     ],
     "teachers": [
-        {"first_name": "Milos", "last_name": "Forman", "subject": "math", "classes": ["3C", "4E"]},
+        {"first_name": "Milos", "last_name": "Forman", "subject": "film", "classes": ["3C", "4E", "4D"]},
+        {"first_name": "Janusz", "last_name": "Kaminski", "subject": "cinematography", "classes": ["3C", "4E", "4D"]},
     ],
     "homeroom_teachers": [
         {"first_name": "Jan", "last_name": "Kowalski", "class": "3C"},
@@ -41,6 +42,15 @@ def show_student(database, first_name, last_name):
 
     print(f"Student {first_name} {last_name} not found.")
 
+
+def show_teacher(database, first_name, last_name):
+    for teacher in database["teachers"]:
+        if teacher["first_name"] == first_name and teacher["last_name"] == last_name:
+            print(f"Teacher {first_name} {last_name} teach class(es):")
+            for class_id in teacher["classes"]:
+                print(f"- {class_id}")
+
+
 def show_homeroom_teacher(database, first_name, last_name):
     for homeroom_teacher in database["homeroom_teachers"]:
         if homeroom_teacher["first_name"] == first_name and homeroom_teacher["last_name"] == last_name:
@@ -49,7 +59,6 @@ def show_homeroom_teacher(database, first_name, last_name):
             for student in database["students"]:
                 if student["class"] == homeroom_teacher["class"]:
                     print(f"{student['first_name']} {student['last_name']}")
-
 
 def create_student(database, first_name, last_name, class_id):
     student_dict = {
@@ -65,7 +74,7 @@ def create_teacher(database, first_name, last_name, subject, class_id):
             "first_name": first_name,
             "last_name": last_name,
             "subject": subject,
-            "class": class_id
+            "classes": [class_id]
         }
     database["teachers"].append(teacher_dict)
     return database
@@ -131,24 +140,26 @@ while True:
             print("\n1. Manage Class\n2. Manage Student\n3. Manage Teacher\n4. Manage Homeroom Teacher\n5. Back to Main Menu")
             command = input("\nChoose an action: ")
 
-            # list all students in class and the homeroom teacher
+            # ask class - list all students in class and the homeroom teacher - DONE
             if command == "1":
                 class_id = input("Provide class id: ")
                 show_class(main_database, class_id)
 
-            # list all students in class and the homeroom teacher
+            # ask for student name and list class of a student and the teachers that teach that class - DONE
             elif command == "2":
                 print("Student search: ")
                 first_name = input("Provide first name: ")
                 last_name = input("Provide last name: ")
                 show_student(main_database, first_name, last_name)
 
-            # list all classes teacher teach
+            # ask for techer name and list all classes teacher teach
             elif command == "3":
-                class_id = input("Provide class id: ")
-                show_class(main_database, class_id)
+                print("Teacher search: ")
+                first_name = input("Provide first name: ")
+                last_name = input("Provide last name: ")
+                show_teacher(main_database, first_name, last_name)
                 
-            # list all students in the class of the homeroom teacher
+            # list all students in the class of the homeroom teacher - DONE
             elif command == "4":
                 print("Homeroom teacher search: ")
                 first_name = input("Provide first name: ")
@@ -163,8 +174,8 @@ while True:
             else:
                 print("Invalid Command!")
 
-    # elif command == "debug":
-    #     print(main_database)        
+    elif main_choice == "debug":
+        print(main_database)        
 
     elif main_choice == "3":
         print("Goodbye!")
